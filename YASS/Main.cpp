@@ -1,10 +1,22 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
+	sf::RenderWindow window(sf::VideoMode(800, 640), "YASS");
+	sf::Texture explosions[9];
+	sf::Texture spaceRocket;
+	sf::Font kenneyFuture;
+
+	for (int i = 0; i <= 8; i++)
+		if (!explosions[i].loadFromFile("Resources/explosion0" + std::to_string(i) + ".png"))
+			return EXIT_FAILURE;
+
+	if (!spaceRocket.loadFromFile("Resources/spaceRockets_002.png"))
+		return EXIT_FAILURE;
+
+	if (!kenneyFuture.loadFromFile("Resources/KenneyFuture.ttf"))
+		return EXIT_FAILURE;
 
 	while (window.isOpen())
 	{
@@ -16,7 +28,6 @@ int main()
 		}
 
 		window.clear();
-		window.draw(shape);
 		window.display();
 	}
 
