@@ -105,6 +105,14 @@ int main()
 
 	ParticleEmitter emitter{ emitterDef };
 	emitter.setActive(true);
+	emitter.setEffector([](Particle& p, sf::Time dt)
+	{
+		float ratio = p.lifetime.asSeconds() / p.initialLifetime.asSeconds();
+		auto opacity = sf::Uint8(255.f * ratio / p.linearVelocity * 100.f);
+		auto color = p.sprite.getColor();
+		color.a = opacity;
+		p.sprite.setColor(color);
+	});
 
 	sf::Sprite spaceRocket{ spaceRocketTexture };
 	sf::Text menuTitle{ "Yet Another Space Shooter", kenneyFuture, 40u };

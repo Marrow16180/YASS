@@ -7,6 +7,7 @@ ParticleEmitter::ParticleEmitter(const ParticleEmitterDefinition & def)
 	, mParticles{}
 	, mElapsedTime{sf::Time::Zero}
 	, mActive{false}
+	, mEffector{}
 	, mGenerator{}
 
 	, mInitialPosition{def.initialPosition}
@@ -56,12 +57,22 @@ void ParticleEmitter::update(sf::Time dt)
 		}
 	}
 
-	for (auto& p : mParticles) if (p.alive()) p.update(dt);
+	for (auto& p : mParticles) if (p.alive())
+	{
+		p.update(dt);
+		if (mEffector) mEffector(p, dt);
+	}
+		
 }
 
 void ParticleEmitter::setActive(bool active)
 {
 	mActive = active;
+}
+
+void ParticleEmitter::setEffector(Effector effector)
+{
+	mEffector = effector;
 }
 
 Particle ParticleEmitter::newParticle()
