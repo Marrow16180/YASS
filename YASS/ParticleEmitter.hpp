@@ -4,6 +4,9 @@
 #include <random>
 #include <vector>
 #include <iostream>
+#include <functional>
+
+typedef std::function<void(Particle& p, sf::Time dt)> Effector;
 
 struct ParticleEmitterDefinition
 {
@@ -37,6 +40,7 @@ public:
 	void update(sf::Time dt);
 
 	void setActive(bool active);
+	void setEffector(Effector effector);
 
 private:
 	Particle newParticle();
@@ -49,6 +53,7 @@ private:
 	std::vector<Particle> mParticles;
 	sf::Time mElapsedTime;
 	bool mActive;
+	Effector mEffector;
 
 	std::mt19937 mGenerator;
 
