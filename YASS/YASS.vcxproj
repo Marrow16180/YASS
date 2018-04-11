@@ -127,6 +127,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleEmitter.cpp" />
+    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +135,7 @@
     <ClInclude Include="Menu.hpp" />
     <ClInclude Include="Particle.hpp" />
     <ClInclude Include="ParticleEmitter.hpp" />
+    <ClInclude Include="Slider.hpp" />
     <ClInclude Include="Utility.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

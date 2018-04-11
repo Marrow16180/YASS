@@ -8,6 +8,14 @@
 #include "Button.hpp"
 #include "ParticleEmitter.hpp"
 
+#include "Slider.hpp"
+
+/* 
+What will be faster to reinitialize object at some location: constructor/destructor or simply writing to this memory?
+
+1. Roll you own string class with some helper methods like findNumber or something
+*/
+
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(800, 640), "YASS");
@@ -24,6 +32,10 @@ int main()
 	sf::Texture starBackgroundTexture;
 	sf::SoundBuffer hoverSoundBuffer;
 	sf::SoundBuffer clickSoundBuffer;
+
+	sf::Texture sliderBarTexture;
+	sf::Texture sliderArrowTexture;
+
 	sf::Music music;
 	music.openFromFile("Resources/theme.ogg");
 	music.setVolume(50.f);
@@ -51,6 +63,28 @@ int main()
 
 	if (!clickSoundBuffer.loadFromFile("Resources/click.ogg"))
 		return EXIT_FAILURE;
+
+	if (!sliderBarTexture.loadFromFile("Resources/greySliderBar.png"))
+		return EXIT_FAILURE;
+
+	if (!sliderArrowTexture.loadFromFile("Resources/greySliderArrow.png"))
+		return EXIT_FAILURE;
+
+	SliderDefinition sliderDef;
+	sliderDef.position = { 400.f, 600.f };
+	sliderDef.barSize = { 300.f, 10.f };
+	sliderDef.arrowSize = { 15.f, 20.f };
+	sliderDef.arrowOffset = { -7.5f, -5.f };
+
+	sliderDef.barTexture = &sliderBarTexture;
+	sliderDef.arrowTexture = &sliderArrowTexture;
+
+	sliderDef.callback = [&music](float volume) { music.setVolume(volume); };
+
+	Slider slider{ window, sliderDef };
+	centerOrigin(slider);
+	slider.setPosition(400.f, 600.f);
+	slider.setValue(50.f);
 
 	ButtonDefinition buttonDef;
 
@@ -144,11 +178,18 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
+			else if (event.type == sf::Event::Resized)
+			{
+				/*auto view = window.getView();
+				view.setSize(float(event.size.width), float(event.size.height));
+				window.setView(view);*/
+			}
 			else
 			{
 				buttonNewGame.handleEvent(event);
 				buttonContinue.handleEvent(event);
 				buttonExit.handleEvent(event);
+				slider.handleEvent(event);
 			}
 		}
 
@@ -182,6 +223,7 @@ int main()
 		window.draw(buttonContinue);
 		window.draw(buttonExit);
 
+		window.draw(slider);
 
 		window.display();
 	}
