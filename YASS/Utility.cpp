@@ -1,17 +1,5 @@
 #include "Utility.hpp"
 
-void centerOrigin(sf::Sprite& sprite)
-{
-	sf::FloatRect bounds = sprite.getLocalBounds();
-	sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-}
-
-void centerOrigin(sf::Text& text)
-{
-	sf::FloatRect bounds = text.getLocalBounds();
-	text.setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
-}
-
 void rotateVector2f(sf::Vector2f & v, float angle)
 {
 	float length = sqrt(v.x * v.x + v.y * v.y);
