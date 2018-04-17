@@ -16,6 +16,12 @@ class PlayerController
     elsif SF::Keyboard.key_pressed? SF::Keyboard::Right
       turn_right(delta)
     end
+
+    @controlled.try do |c|
+      view = @window.default_view
+      view.center = c.position
+      @window.view = view
+    end
   end
 
   def accelerate(delta : SF::Time)

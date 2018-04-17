@@ -1,6 +1,7 @@
 require "./crsfml"
 require "./player_controller"
 
+# TODO: move it somewhere else
 module SF::DebugDrawable
   abstract def debug_draw(target : RenderTarget, states : RenderStates)
 end
@@ -8,6 +9,8 @@ end
 class Ship < SF::Transformable
   include SF::Drawable
   include SF::DebugDrawable
+
+  getter velocity
 
   {% unless flag?(:release) %}
 
@@ -59,14 +62,14 @@ class Ship < SF::Transformable
   end
 
   def accelerate(delta : SF::Time)
-    angle = (self.rotation - 90) / 180f32 * Math::PI
+    angle = self.rotation / 180f32 * Math::PI
     dx = Math.cos(angle) * @linear_acc * delta.as_seconds()
     dy = Math.sin(angle) * @linear_acc * delta.as_seconds()
     @velocity += {dx, dy}
   end
 
   def decelerate(delta : SF::Time)
-    angle = (self.rotation - 90) / 180f32 * Math::PI
+    angle = self.rotation / 180f32 * Math::PI
     dx = Math.cos(angle) * @linear_acc * delta.as_seconds()
     dy = Math.sin(angle) * @linear_acc * delta.as_seconds()
     @velocity -= {dx, dy}
