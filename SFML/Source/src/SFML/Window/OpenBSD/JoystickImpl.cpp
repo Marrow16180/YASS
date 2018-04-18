@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2018 Laurent Gomila (laurent@sfml-dev.org)
+// Copyright (C) 2013 Jonathan De Wachter (dewachter.jonathan@gmail.com)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -25,87 +25,73 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Window/Context.hpp>
-#include <SFML/Window/GlContext.hpp>
-#include <SFML/System/ThreadLocalPtr.hpp>
+#include <SFML/Window/JoystickImpl.hpp>
 
-
-namespace
-{
-    // This per-thread variable holds the current context for each thread
-    sf::ThreadLocalPtr<sf::Context> currentContext(NULL);
-}
 
 namespace sf
 {
-////////////////////////////////////////////////////////////
-Context::Context()
+namespace priv
 {
-    m_context = priv::GlContext::create();
-    setActive(true);
+////////////////////////////////////////////////////////////
+void JoystickImpl::initialize()
+{
+    // To implement
+}
+
+
+
+////////////////////////////////////////////////////////////
+void JoystickImpl::cleanup()
+{
+    // To implement
 }
 
 
 ////////////////////////////////////////////////////////////
-Context::~Context()
+bool JoystickImpl::isConnected(unsigned int index)
 {
-    setActive(false);
-    delete m_context;
+    // To implement
+    return false;
 }
 
 
 ////////////////////////////////////////////////////////////
-bool Context::setActive(bool active)
+bool JoystickImpl::open(unsigned int index)
 {
-    bool result = m_context->setActive(active);
-
-    if (result)
-        currentContext = (active ? this : NULL);
-
-    return result;
+    // To implement
+    return false;
 }
 
 
 ////////////////////////////////////////////////////////////
-const ContextSettings& Context::getSettings() const
+void JoystickImpl::close()
 {
-    return m_context->getSettings();
+    // To implement
 }
 
 
 ////////////////////////////////////////////////////////////
-const Context* Context::getActiveContext()
+JoystickCaps JoystickImpl::getCapabilities() const
 {
-    return currentContext;
+    // To implement
+    return JoystickCaps();
 }
 
 
 ////////////////////////////////////////////////////////////
-Uint64 Context::getActiveContextId()
+Joystick::Identification JoystickImpl::getIdentification() const
 {
-    return priv::GlContext::getActiveContextId();
+    return m_identification;
 }
 
 
 ////////////////////////////////////////////////////////////
-bool Context::isExtensionAvailable(const char* name)
+JoystickState JoystickImpl::update()
 {
-    return priv::GlContext::isExtensionAvailable(name);
+    // To implement
+    return JoystickState();
 }
 
-
-////////////////////////////////////////////////////////////
-GlFunctionPointer Context::getFunction(const char* name)
-{
-    return priv::GlContext::getFunction(name);
-}
-
-
-////////////////////////////////////////////////////////////
-Context::Context(const ContextSettings& settings, unsigned int width, unsigned int height)
-{
-    m_context = priv::GlContext::create(settings, width, height);
-    setActive(true);
-}
+} // namespace priv
 
 } // namespace sf

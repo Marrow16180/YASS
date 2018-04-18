@@ -79,7 +79,7 @@ if(SFML_OS_WINDOWS)
 
     # make sure that we use the Unicode version of the Win API functions
     add_definitions(-DUNICODE -D_UNICODE)
-elseif(SFML_OS_LINUX OR SFML_OS_FREEBSD)
+elseif(SFML_OS_LINUX OR SFML_OS_FREEBSD OR SFML_OS_OPENBSD)
     set(PLATFORM_SRC
         ${SRCROOT}/Unix/CursorImpl.hpp
         ${SRCROOT}/Unix/CursorImpl.cpp
@@ -115,6 +115,12 @@ elseif(SFML_OS_LINUX OR SFML_OS_FREEBSD)
             ${PLATFORM_SRC}
             ${SRCROOT}/FreeBSD/JoystickImpl.cpp
             ${SRCROOT}/FreeBSD/JoystickImpl.hpp
+        )
+    elseif(SFML_OS_OPENBSD)
+        set(PLATFORM_SRC
+            ${PLATFORM_SRC}
+            ${SRCROOT}/OpenBSD/JoystickImpl.cpp
+            ${SRCROOT}/OpenBSD/JoystickImpl.hpp
         )
     endif()
     source_group("unix" FILES ${PLATFORM_SRC})
@@ -224,7 +230,7 @@ sfml_add_library(sfml-window
 target_link_libraries(sfml-window PUBLIC sfml-system)
 
 # find and setup usage for external libraries
-if(SFML_OS_LINUX OR SFML_OS_FREEBSD)
+if(SFML_OS_LINUX OR SFML_OS_FREEBSD OR SFML_OPENBSD)
     sfml_find_package(X11 INCLUDE "X11_INCLUDE_DIR" LINK "X11_X11_LIB" "X11_Xrandr_LIB")
     target_link_libraries(sfml-window PRIVATE X11)
 endif()

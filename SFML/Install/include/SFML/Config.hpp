@@ -86,6 +86,11 @@
         // FreeBSD
         #define SFML_SYSTEM_FREEBSD
 
+    #elif defined(__OpenBSD__)
+
+        // OpenBSD
+        #define SFML_SYSTEM_OPENBSD
+
     #else
 
         // Unsupported UNIX system
